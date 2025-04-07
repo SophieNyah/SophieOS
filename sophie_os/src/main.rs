@@ -13,7 +13,7 @@ use sophie_os::println;
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    sophie_os::hlt_loop();
 }
 
 #[cfg(test)]
@@ -25,12 +25,11 @@ fn panic(info: &PanicInfo) -> ! {
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     sophie_os::init();
-    x86_64::instructions::interrupts::int3();
 
     #[cfg(test)]
     test_main();
     
-    loop {}
+    sophie_os::hlt_loop();
 }
 
 #[test_case]
